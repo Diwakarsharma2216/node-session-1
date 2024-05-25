@@ -1,5 +1,6 @@
 const express = require("express");
 const db = require("./config/db");
+require("dotenv").config();
 const userRoute = require("./Routes/userRoute");
 const session = require("express-session");
 const localStrategyInitializer = require("./middlewares/userValidate");
@@ -21,7 +22,7 @@ app.use("/user", userRoute);
 app.get("/", (req, res) => {
   res.render("index");
 });
-app.listen(8080, async () => {
+app.listen(process.env.PORT, async () => {
   console.log("listening on port 8080");
 
   await db.sync();
