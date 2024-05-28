@@ -1,15 +1,11 @@
 const { STRING, INTEGER } = require("sequelize");
 const db = require("../config/db");
 
-
-const User=db.define("User",{
+const UserModel=db.define("User",{
     username:STRING,
     email:STRING,
     password:STRING,
-    number:INTEGER
-},{
-    createdAt:false,
-    updatedAt:false,
+    number:STRING
 })
 
-module.exports = User;
+module.exports=UserModel

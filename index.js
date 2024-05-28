@@ -1,30 +1,21 @@
-const express = require("express");
-const db = require("./config/db");
-require("dotenv").config();
-const userRoute = require("./Routes/userRoute");
-const session = require("express-session");
-const localStrategyInitializer = require("./middlewares/userValidate");
-const passport = require("passport");
+const express=require("express")
+const db = require("./config/db")
+const UserRouter = require("./routes/User.routes")
+require("dotenv").config()
+const app=express()
 
-const app = express();
-app.set("view engine", "ejs");
-app.set("views", __dirname + "/views");
-app.use(express.static("public"));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(session({secret: "secret-key"}));
-localStrategyInitializer(passport)
+app.use(express.json())
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use("/user",UserRouter)
 
-app.use("/user", userRoute);
-app.get("/", (req, res) => {
-  res.render("index");
-});
-app.listen(process.env.PORT, async () => {
-  console.log("listening on port 8080");
 
-  await db.sync();
-  console.log("<<<<<<<<<<<<<connect TO database>>>>>>>>>>>>>>>>>");
-});
+
+
+
+app.listen(process.env.PORT,async()=>{
+    try {
+        await db.sync()
+    } catch (error) {
+        console.log(error.message)
+    }
+})
